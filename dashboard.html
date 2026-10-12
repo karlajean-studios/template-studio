@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Studio Dashboard — KarlaJean Studios</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Montserrat:wght@500;600;700;800&family=Parisienne&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23170b2b'/%3E%3Ctext x='32' y='44' font-size='36' text-anchor='middle' fill='%23ff4fd8'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">✦</span>
+      <div>
+        <p class="brand-name">KarlaJean Studios</p>
+        <p class="brand-sub">Studio Dashboard</p>
+      </div>
+    </div>
+    <nav class="site-nav" aria-label="Main">
+      <a href="index.html">← Back to the hub</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="pinGate" class="section" hidden>
+    <div class="pin-wrap">
+      <h2 id="pinTitle">Set your dashboard PIN</h2>
+      <p class="section-sub" id="pinSub">This PIN lives only on this device and keeps casual snoopers out of your numbers.</p>
+      <input type="password" id="pinInput" inputmode="numeric" autocomplete="off" maxlength="12" aria-label="Dashboard PIN">
+      <button id="pinBtn" class="btn btn-primary btn-block">Unlock dashboard</button>
+    </div>
+  </section>
+
+  <section id="dashMain" class="section" hidden>
+    <h2>Studio numbers</h2>
+    <p class="section-sub">Real events, counted once each. Reloads and double-taps don't inflate these.</p>
+    <p><span class="mode-note" id="modeNote"></span></p>
+    <p id="tokenRow" hidden>
+      <input type="password" id="dashToken" placeholder="Backend token" aria-label="Backend token"
+        style="padding:10px 14px;border-radius:10px;border:1px solid var(--line);background:#140a28;color:var(--ink);font-family:inherit">
+      <button id="tokenBtn" class="btn btn-ghost btn-small">Save token</button>
+    </p>
+    <div class="dash-grid">
+      <div class="stat-card"><div class="num" id="stVisits">…</div><div class="lbl">Page visits</div></div>
+      <div class="stat-card"><div class="num" id="stUniques">…</div><div class="lbl">Unique devices / days</div></div>
+      <div class="stat-card"><div class="num" id="stCreations">…</div><div class="lbl">Creations downloaded</div></div>
+    </div>
+
+    <h2 style="margin-top:40px">Most popular templates</h2>
+    <table class="stat-table" aria-label="Template popularity">
+      <thead><tr><th>Template</th><th>Editor opens</th><th>Downloads</th></tr></thead>
+      <tbody id="tplRows"><tr><td colspan="3">Loading…</td></tr></tbody>
+    </table>
+
+    <h2 style="margin-top:40px">Link taps</h2>
+    <table class="stat-table" aria-label="Outbound link taps">
+      <thead><tr><th>Link</th><th>Taps</th></tr></thead>
+      <tbody id="linkRows"><tr><td colspan="2">Loading…</td></tr></tbody>
+    </table>
+
+    <div style="text-align:center;margin-top:28px">
+      <button id="refreshBtn" class="btn btn-ghost">↻ Refresh numbers</button>
+    </div>
+
+    <h2 style="margin-top:44px">What we store</h2>
+    <ol class="steps" style="grid-template-columns:1fr">
+      <li><strong>Counted:</strong> page visits (once per visit), unique devices per day (a random ID on the device — never personal), template editor opens, completed downloads per template, taps on hub links.</li>
+      <li><strong>Never collected:</strong> names, uploaded photos (they never leave the visitor's device), or any personal information. Counting never needs to know who anyone is.</li>
+      <li><strong>Where it lives:</strong> <span id="whereNote"></span></li>
+    </ol>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>© 2026 KarlaJean Studios <span aria-hidden="true">✦</span></p>
+  </div>
+</footer>
+
+<script src="analytics.js"></script>
+<script>
+(function () {
+  'use strict';
+  var PIN_KEY = 'kjs_dash_pin';
+  function $(id) { return document.getElementById(id); }
+
+  function storedPin() {
+    try { return localStorage.getItem(PIN_KEY); } catch (e) { return null; }
+  }
+  function showMain() {
+    $('pinGate').hidden = true;
+    $('dashMain').hidden = false;
+    loadStats();
+  }
+  function setupGate() {
+    var pin = storedPin();
+    $('pinGate').hidden = false;
+    if (pin) {
+      $('pinTitle').textContent = 'Enter your dashboard PIN';
+      $('pinSub').textContent = 'This dashboard is PIN-protected on this device.';
+    }
+    $('pinBtn').addEventListener('click', function () {
+      var v = $('pinInput').value;
+      if (!v || v.length < 4) { $('pinInput').focus(); return; }
+      if (pin) {
+        if (v === pin) showMain();
+        else { $('pinInput').value = ''; $('pinInput').focus(); }
+      } else {
+        try { localStorage.setItem(PIN_KEY, v); } catch (e) {}
+        showMain();
+      }
+    });
+    $('pinInput').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') $('pinBtn').click();
+    });
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  function loadStats() {
+    KJSAnalytics.getStats().then(function (st) {
+      var global = st.mode === 'global';
+      $('modeNote').textContent = global
+        ? (st.authed ? '● Global mode — counting every visitor (full detail)'
+                     : '● Global mode — public aggregates only (enter backend token for full detail)')
+        : '● On-device mode — showing this device only (global counting activates with the backend)';
+      $('tokenRow').hidden = !(global && !st.authed);
+      $('whereNote').textContent = global
+        ? 'anonymous event counts on your private counter backend.'
+        : 'right here in this browser\'s local storage — nothing leaves the device.';
+      $('stVisits').textContent = (st.visits || 0).toLocaleString('en-US');
+      $('stUniques').textContent = (global ? (st.uniques || 0) : (st.uniqueDays || 0)).toLocaleString('en-US');
+      $('stCreations').textContent = (st.totalDownloads || 0).toLocaleString('en-US');
+
+      var names = {};
+      fetch('templates.json').then(function (r) { return r.json(); }).then(function (j) {
+        (j.templates || []).forEach(function (x) { names[x.id] = x.name; });
+        renderTplRows(st, names);
+      }).catch(function () { renderTplRows(st, names); });
+
+      var lnames = {};
+      fetch('links.json').then(function (r) { return r.json(); }).then(function (j) {
+        (j.links || []).forEach(function (x) { lnames[x.id] = x.label; });
+        renderLinkRows(st, lnames);
+      }).catch(function () { renderLinkRows(st, lnames); });
+    });
+  }
+
+  function renderTplRows(st, names) {
+    var rows = [];
+    var ids = {};
+    Object.keys(st.opens || {}).forEach(function (k) { ids[k] = 1; });
+    Object.keys(st.downloads || {}).forEach(function (k) { ids[k] = 1; });
+    Object.keys(ids).forEach(function (id) {
+      rows.push({
+        name: names[id] || id,
+        opens: (st.opens || {})[id] || 0,
+        downloads: (st.downloads || {})[id] || 0
+      });
+    });
+    rows.sort(function (a, b) { return b.downloads - a.downloads; });
+    var tb = $('tplRows');
+    if (!rows.length) { tb.innerHTML = '<tr><td colspan="3">No activity yet — share the hub and watch this fill up. 💜</td></tr>'; return; }
+    tb.innerHTML = rows.map(function (r) {
+      return '<tr><td>' + esc(r.name) + '</td><td>' + r.opens + '</td><td>' + r.downloads + '</td></tr>';
+    }).join('');
+  }
+
+  function renderLinkRows(st, names) {
+    var tb = $('linkRows');
+    var ids = Object.keys(st.clicks || {});
+    if (!ids.length) { tb.innerHTML = '<tr><td colspan="2">No taps yet.</td></tr>'; return; }
+    var rows = ids.map(function (id) {
+      return { name: names[id] || id, n: st.clicks[id] };
+    }).sort(function (a, b) { return b.n - a.n; });
+    tb.innerHTML = rows.map(function (r) {
+      return '<tr><td>' + esc(r.name) + '</td><td>' + r.n + '</td></tr>';
+    }).join('');
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    setupGate();
+    $('refreshBtn').addEventListener('click', loadStats);
+    $('tokenBtn').addEventListener('click', function () {
+      var v = $('dashToken').value.trim();
+      if (!v) return;
+      KJSAnalytics.setToken(v);
+      $('dashToken').value = '';
+      loadStats();
+    });
+  });
+})();
+</script>
+</body>
+</html>
