@@ -1,0 +1,105 @@
+{
+  "name": "Creator Spotlight",
+  "version": "0.2.0",
+  "canvas": {
+    "w": 1254,
+    "h": 1254
+  },
+  "layers": {
+    "back": "bg-back.png",
+    "front": "bg-front.png"
+  },
+  "badgeText": {
+    "font": "Anton",
+    "fill": "#141414",
+    "weight": 400
+  },
+  "placeholder": "native",
+  "slots": [
+    {
+      "id": "main",
+      "label": "Main Creator",
+      "cx": 927,
+      "cy": 300,
+      "r": 289,
+      "badge": {
+        "cx": 940,
+        "cy": 545,
+        "w": 440,
+        "h": 70,
+        "fontSize": 54
+      }
+    },
+    {
+      "id": "creator1",
+      "label": "Creator 1",
+      "cx": 125,
+      "cy": 858,
+      "r": 96,
+      "badge": {
+        "cx": 125,
+        "cy": 972,
+        "w": 170,
+        "h": 46,
+        "fontSize": 34
+      }
+    },
+    {
+      "id": "creator2",
+      "label": "Creator 2",
+      "cx": 376,
+      "cy": 858,
+      "r": 93,
+      "badge": {
+        "cx": 376,
+        "cy": 972,
+        "w": 170,
+        "h": 46,
+        "fontSize": 34
+      }
+    },
+    {
+      "id": "creator3",
+      "label": "Creator 3",
+      "cx": 627,
+      "cy": 858,
+      "r": 87,
+      "badge": {
+        "cx": 627,
+        "cy": 972,
+        "w": 170,
+        "h": 46,
+        "fontSize": 34
+      }
+    },
+    {
+      "id": "creator4",
+      "label": "Creator 4",
+      "cx": 877,
+      "cy": 858,
+      "r": 89,
+      "badge": {
+        "cx": 877,
+        "cy": 972,
+        "w": 170,
+        "h": 46,
+        "fontSize": 34
+      }
+    },
+    {
+      "id": "creator5",
+      "label": "Creator 5",
+      "cx": 1128,
+      "cy": 858,
+      "r": 88,
+      "badge": {
+        "cx": 1128,
+        "cy": 972,
+        "w": 170,
+        "h": 46,
+        "fontSize": 34
+      }
+    }
+  ],
+  "contactEmail": "karlajeanstudios@gmail.com"
+}

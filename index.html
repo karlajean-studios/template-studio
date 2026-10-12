@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>KarlaJean Studios — Template Studio</title>
+<meta name="description" content="Personalize beautiful KarlaJean Studios graphics right in your browser. Upload photos, add names, download your creation. No design skills needed.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap header-inner">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">✦</span>
+      <div>
+        <p class="brand-name">KarlaJean Studios</p>
+        <p class="brand-sub">Template Studio</p>
+      </div>
+    </div>
+    <nav class="site-nav" aria-label="Main">
+      <a href="#templates">Templates</a>
+      <a href="#how">How it works</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <p class="kicker">✦ KarlaJean Studios presents ✦</p>
+      <h1>Make it yours.<br><span class="neon">Share it everywhere.</span></h1>
+      <p class="lede">Pick a template, drop in your photos, type your names, and download a finished graphic — right from your phone. No design skills, no pricey software, no AI weirdness on your face.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#templates">Browse templates</a>
+        <a class="btn btn-ghost" href="#how">How it works</a>
+      </div>
+      <p class="privacy-note">🔒 Everything happens in your browser. Your photos never leave your device unless <em>you</em> share the finished graphic.</p>
+    </div>
+  </section>
+
+  <section id="templates" class="section">
+    <div class="wrap">
+      <h2>Template gallery</h2>
+      <p class="section-sub">Start with our first template — more collections are on the way.</p>
+      <div id="gallery" class="gallery" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section id="editor" class="section editor-section" hidden>
+    <div class="wrap">
+      <button id="backToGallery" class="btn btn-ghost btn-small">← All templates</button>
+      <h2 id="editorTitle">Creator Spotlight</h2>
+      <p class="section-sub">Tap a circle to select it, then upload a photo. Drag the photo to reposition, use the slider to zoom, type each name.</p>
+      <div class="editor-grid">
+        <div class="preview-col">
+          <div class="canvas-frame">
+            <canvas id="preview" width="1080" height="1350" aria-label="Live preview of your personalized graphic"></canvas>
+          </div>
+          <p class="hint" id="canvasHint">Tap a circle to pick a photo spot.</p>
+        </div>
+        <div class="controls-col">
+          <div id="slotCards" class="slot-cards"></div>
+          <button id="downloadBtn" class="btn btn-primary btn-block">⬇ Download PNG</button>
+          <p class="fine-print" id="dlFinePrint">High-quality PNG, ready for Facebook, Threads &amp; Instagram.</p>
+          <button id="resetBtn" class="btn btn-ghost btn-block">Start over</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" class="section">
+    <div class="wrap">
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li><strong>Visit</strong> the Template Studio.</li>
+        <li><strong>Browse</strong> the available templates.</li>
+        <li><strong>Select</strong> a template you love.</li>
+        <li><strong>Upload</strong> photos into the marked spaces.</li>
+        <li><strong>Type</strong> names or custom text.</li>
+        <li><strong>Preview</strong> your creation live.</li>
+        <li><strong>Download</strong> the finished graphic.</li>
+        <li><strong>Share</strong> it on Facebook, Threads, Instagram — wherever your people are.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="contact" class="section">
+    <div class="wrap contact-card">
+      <h2>Want something custom?</h2>
+      <p>Personalized designs, custom AI creations, and subscriber-exclusive artwork — made by KarlaJean Studios, just for you.</p>
+      <a class="btn btn-primary" href="mailto:karlajeanstudios@gmail.com?subject=Custom%20design%20request%20—%20KarlaJean%20Studios%20Template%20Studio">✉ karlajeanstudios@gmail.com</a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>© 2026 KarlaJean Studios <span aria-hidden="true">✦</span> Made with a little mischief and a lot of love.</p>
+    <p class="fine-print">Your uploads stay on your device. Nothing is sent anywhere until you choose to share your download.</p>
+  </div>
+</footer>
+
+<input type="file" id="filePicker" accept="image/*" hidden>
+<script src="app.js"></script>
+</body>
+</html>
