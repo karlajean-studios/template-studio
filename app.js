@@ -23,6 +23,7 @@
   var activeSlot = 0;
   var canvas, ctx, filePicker, pickingSlot = 0;
   var LOGICAL_W = 1254, LOGICAL_H = 1254;
+  var ASSET_V = '0.2.1'; // bump to bust caches on updates
 
   function el(id) { return document.getElementById(id); }
   function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
@@ -100,7 +101,7 @@
   function renderLinks() {
     var grid = el('linkGrid');
     if (!grid) return;
-    fetch('links.json').then(function (r) { return r.json(); }).then(function (j) {
+    fetch('links.json?v=' + ASSET_V).then(function (r) { return r.json(); }).then(function (j) {
       (j.links || []).forEach(function (l) {
         var a = document.createElement('a');
         a.className = 'link-card';
@@ -141,7 +142,7 @@
     var th = el('textCardsHead');
     if (th) th.hidden = true;
     track('open', t.id);
-    fetch(t.spec).then(function (r) { return r.json(); }).then(function (s) {
+    fetch(t.spec + '?v=' + ASSET_V).then(function (r) { return r.json(); }).then(function (s) {
       spec = s;
       LOGICAL_W = s.canvas.w; LOGICAL_H = s.canvas.h;
       canvas.width = LOGICAL_W; canvas.height = LOGICAL_H;
@@ -165,7 +166,7 @@
   function loadImage(src, cb) {
     var img = new Image();
     img.onload = function () { cb(img); };
-    img.src = src;
+    img.src = src + '?v=' + ASSET_V;
   }
 
   function buildSlotCards() {
@@ -586,7 +587,7 @@
       KJSAnalytics.track('unique', 'daily');
       KJSAnalytics.renderPublicCounter('creationsCount');
     }
-    fetch('templates.json')
+    fetch('templates.json?v=' + ASSET_V)
       .then(function (r) { return r.json(); })
       .then(function (j) { TEMPLATES = j.templates || j; renderGallery(); })
       .catch(function () { TEMPLATES = FALLBACK_TEMPLATES; renderGallery(); });

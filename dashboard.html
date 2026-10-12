@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Montserrat:wght@500;600;700;800&family=Parisienne&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23170b2b'/%3E%3Ctext x='32' y='44' font-size='36' text-anchor='middle' fill='%23ff4fd8'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css?v=0.2.1">
 </head>
 <body>
 <header class="site-header">
@@ -83,7 +83,7 @@
   </div>
 </footer>
 
-<script src="analytics.js"></script>
+<script src="analytics.js?v=0.2.1"></script>
 <script>
 (function () {
   'use strict';
@@ -143,13 +143,13 @@
       $('stCreations').textContent = (st.totalDownloads || 0).toLocaleString('en-US');
 
       var names = {};
-      fetch('templates.json').then(function (r) { return r.json(); }).then(function (j) {
+      fetch('templates.json?v=0.2.1').then(function (r) { return r.json(); }).then(function (j) {
         (j.templates || []).forEach(function (x) { names[x.id] = x.name; });
         renderTplRows(st, names);
       }).catch(function () { renderTplRows(st, names); });
 
       var lnames = {};
-      fetch('links.json').then(function (r) { return r.json(); }).then(function (j) {
+      fetch('links.json?v=0.2.1').then(function (r) { return r.json(); }).then(function (j) {
         (j.links || []).forEach(function (x) { lnames[x.id] = x.label; });
         renderLinkRows(st, lnames);
       }).catch(function () { renderLinkRows(st, lnames); });
