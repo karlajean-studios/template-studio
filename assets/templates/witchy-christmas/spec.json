@@ -1,0 +1,60 @@
+{
+  "canvas": {
+    "w": 1254,
+    "h": 1254
+  },
+  "layers": {
+    "back": "bg.jpg"
+  },
+  "slots": [
+    {
+      "id": "photo1",
+      "label": "Holiday photo",
+      "cx": 627,
+      "cy": 640,
+      "r": 260,
+      "shape": "circle",
+      "frame": {
+        "stroke": "#ff4fd8",
+        "width": 10,
+        "glow": "#ff4fd8",
+        "glowBlur": 24
+      }
+    }
+  ],
+  "texts": [
+    {
+      "id": "greeting",
+      "label": "Greeting",
+      "default": "Witchy Christmas!",
+      "x": 627,
+      "y": 160,
+      "size": 72,
+      "fill": "#ffd7f2",
+      "weight": 800,
+      "font": "Bungee"
+    },
+    {
+      "id": "sub",
+      "label": "Sub-greeting",
+      "default": "May your holidays be magical \u2728",
+      "x": 627,
+      "y": 1080,
+      "size": 40,
+      "fill": "#e9b8ff",
+      "weight": 600,
+      "font": "Marcellus"
+    }
+  ],
+  "brand": {
+    "text": "\u2726 KarlaJean Studios",
+    "sub": "karlajean-studios.github.io/template-studio/",
+    "x": 627,
+    "y": 1195,
+    "size": 26,
+    "subSize": 18,
+    "fill": "#e9b8ff",
+    "subFill": "#c9a7ff",
+    "alpha": 0.8
+  }
+}

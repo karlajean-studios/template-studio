@@ -101,5 +101,16 @@
       }
     }
   ],
-  "contactEmail": "karlajeanstudios@gmail.com"
+  "contactEmail": "karlajeanstudios@gmail.com",
+  "brand": {
+    "text": "\u2726 KarlaJean Studios",
+    "sub": "karlajean-studios.github.io/template-studio/",
+    "x": 627,
+    "y": 1205,
+    "size": 22,
+    "subSize": 15,
+    "fill": "#7a2d8f",
+    "subFill": "#9a5fb0",
+    "alpha": 0.9
+  }
 }

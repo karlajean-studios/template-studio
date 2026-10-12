@@ -1,17 +1,21 @@
-/* KarlaJean Studios counter backend — Cloudflare Worker + KV.
- * $0 on Cloudflare's free tier. NOT YET DEPLOYED — see README.md.
+/* KarlaJean Studios counter backend — Cloudflare Worker + D1.
+ * $0 on Cloudflare's free tier. See README.md for the setup walkthrough.
  *
- * API:
- *   GET /api/hit/{action}/{key}   increment a counter      -> {action,key,value}
- *   GET /api/get/{action}/{key}   read one counter         -> {action,key,value}
- *   GET /api/public                public aggregates        -> {visits,totalOpens,totalDownloads,uniquesTotal}
- *   GET /api/stats?token=SECRET    full detail (dashboard)  -> {visits,uniques{},opens{},downloads{},clicks{},...}
+ * Why D1 (not KV): counter increments are a single atomic SQL statement,
+ * so simultaneous visitors can never overwrite each other's counts.
  *
- * Actions used by the site: visit, unique, open, download, click.
- * unique keys are dates (YYYY-MM-DD); each device fires once per day.
+ * API (all JSON):
+ *   POST /api/hit   {action, key}   increment a counter (CORS: her site only)
+ *   GET  /api/public                public aggregates (homepage counter)
+ *   GET  /api/stats?token=SECRET    full detail (private dashboard)
+ *
+ * Actions: visit, unique, open, download, click.
+ * Keys: template ids, link ids, or YYYY-MM-DD dates (for unique).
  * Never stores names, photos, IPs, or personal info — just integer counts.
  */
+
 const ALLOWED_ORIGIN = 'https://karlajean-studios.github.io';
+const VALID_ACTIONS = ['visit', 'unique', 'open', 'download', 'click'];
 
 function json(data, status) {
   return new Response(JSON.stringify(data), {
@@ -19,18 +23,51 @@ function json(data, status) {
     headers: {
       'content-type': 'application/json',
       'access-control-allow-origin': ALLOWED_ORIGIN,
-      'access-control-allow-methods': 'GET, OPTIONS',
+      'access-control-allow-methods': 'GET, POST, OPTIONS',
+      'access-control-allow-headers': 'content-type',
       'cache-control': 'no-store',
     },
   });
 }
 
-function ck(action, key) {
-  return 'c:' + action + ':' + key;
+function cleanKey(k) {
+  // allow letters, numbers, dash, underscore, slash, dot — max 120 chars
+  k = String(k || '').slice(0, 120);
+  return /^[A-Za-z0-9._\/-]+$/.test(k) ? k : null;
 }
 
-async function readInt(env, name) {
-  return parseInt((await env.COUNTERS.get(name)) || '0', 10) || 0;
+async function publicStats(db) {
+  const rows = await db.prepare(
+    "SELECT action, key, value FROM counters"
+  ).all();
+  const s = {
+    visits: 0, uniquesTotal: 0, totalOpens: 0, totalDownloads: 0,
+  };
+  for (const r of rows.results || []) {
+    if (r.action === 'visit') s.visits += r.value;
+    else if (r.action === 'unique') s.uniquesTotal += r.value;
+    else if (r.action === 'open') s.totalOpens += r.value;
+    else if (r.action === 'download') s.totalDownloads += r.value;
+  }
+  return s;
+}
+
+async function fullStats(db) {
+  const rows = await db.prepare(
+    "SELECT action, key, value FROM counters ORDER BY action, key"
+  ).all();
+  const s = {
+    visits: 0, uniques: {}, opens: {}, downloads: {}, clicks: {},
+    totalOpens: 0, totalDownloads: 0, uniquesTotal: 0,
+  };
+  for (const r of rows.results || []) {
+    if (r.action === 'visit') s.visits += r.value;
+    else if (r.action === 'unique') { s.uniques[r.key] = r.value; s.uniquesTotal += r.value; }
+    else if (r.action === 'open') { s.opens[r.key] = r.value; s.totalOpens += r.value; }
+    else if (r.action === 'download') { s.downloads[r.key] = r.value; s.totalDownloads += r.value; }
+    else if (r.action === 'click') s.clicks[r.key] = r.value;
+  }
+  return s;
 }
 
 export default {
@@ -39,77 +76,38 @@ export default {
     if (req.method === 'OPTIONS') return json({}, 204);
     const parts = url.pathname.split('/').filter(Boolean);
 
-    // increment
-    if (parts[0] === 'api' && parts[1] === 'hit' && parts[2] && parts[3]) {
-      const action = parts[2];
-      const key = parts.slice(3).join('/');
-      const value = (await readInt(env, ck(action, key))) + 1;
-      await env.COUNTERS.put(ck(action, key), String(value));
-      return json({ action, key, value });
+    // --- increment (atomic) ---
+    if (parts[0] === 'api' && parts[1] === 'hit' && req.method === 'POST') {
+      let body = {};
+      try { body = await req.json(); } catch (e) { return json({ error: 'bad json' }, 400); }
+      const action = body.action;
+      const key = cleanKey(body.key);
+      if (!VALID_ACTIONS.includes(action) || !key) {
+        return json({ error: 'bad action or key' }, 400);
+      }
+      // Atomic: insert or bump in a single statement — no lost counts.
+      const row = await env.DB.prepare(
+        `INSERT INTO counters(action, key, value) VALUES(?, ?, 1)
+         ON CONFLICT(action, key) DO UPDATE SET value = value + 1
+         RETURNING value`
+      ).bind(action, key).first();
+      return json({ action, key, value: row ? row.value : 1 });
     }
 
-    // read one
-    if (parts[0] === 'api' && parts[1] === 'get' && parts[2] && parts[3]) {
-      const action = parts[2];
-      const key = parts.slice(3).join('/');
-      return json({ action, key, value: await readInt(env, ck(action, key)) });
+    // --- public aggregates (homepage "Creations Made" counter) ---
+    if (parts[0] === 'api' && parts[1] === 'public' && req.method === 'GET') {
+      return json(await publicStats(env.DB));
     }
 
-    // public aggregates (homepage counter — no token needed, counts only)
-    if (parts[0] === 'api' && parts[1] === 'public') {
-      return json(await publicStats(env));
-    }
-
-    // full detail (dashboard — token required)
-    if (parts[0] === 'api' && parts[1] === 'stats') {
-      if (!env.DASH_TOKEN || url.searchParams.get('token') !== env.DASH_TOKEN) {
+    // --- full detail (private dashboard — secret token required) ---
+    if (parts[0] === 'api' && parts[1] === 'stats' && req.method === 'GET') {
+      const token = url.searchParams.get('token') || '';
+      if (!env.DASH_TOKEN || token !== env.DASH_TOKEN) {
         return json({ error: 'forbidden' }, 403);
       }
-      return json(await fullStats(env));
+      return json(await fullStats(env.DB));
     }
 
     return json({ ok: true, service: 'kjs-counter' });
   },
 };
-
-async function publicStats(env) {
-  const s = await fullStats(env);
-  return {
-    visits: s.visits,
-    totalOpens: s.totalOpens,
-    totalDownloads: s.totalDownloads,
-    uniquesTotal: s.uniquesTotal,
-  };
-}
-
-async function fullStats(env) {
-  const stats = {
-    visits: 0,
-    uniques: {},
-    opens: {},
-    downloads: {},
-    clicks: {},
-    totalOpens: 0,
-    totalDownloads: 0,
-    uniquesTotal: 0,
-  };
-  let cursor = undefined;
-  do {
-    const page = await env.COUNTERS.list({ prefix: 'c:', cursor });
-    for (const entry of page.keys) {
-      const m = entry.name.match(/^c:(visit|unique|open|download|click):(.+)$/);
-      if (!m) continue;
-      const v = await readInt(env, entry.name);
-      const action = m[1];
-      const key = m[2];
-      if (action === 'visit') stats.visits += v;
-      else if (action === 'unique') { stats.uniques[key] = v; stats.uniquesTotal += v; }
-      else if (action === 'open') { stats.opens[key] = v; stats.totalOpens += v; }
-      else if (action === 'download') { stats.downloads[key] = v; stats.totalDownloads += v; }
-      else if (action === 'click') stats.clicks[key] = v;
-    }
-    cursor = page.cursor;
-    if (page.list_complete) break;
-  } while (cursor);
-  return stats;
-}

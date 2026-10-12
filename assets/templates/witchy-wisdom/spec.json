@@ -1,0 +1,57 @@
+{
+  "canvas": {
+    "w": 1254,
+    "h": 1254
+  },
+  "layers": {
+    "back": "bg.jpg"
+  },
+  "slots": [],
+  "texts": [
+    {
+      "id": "header",
+      "label": "Header",
+      "default": "WITCHY WISDOM",
+      "x": 627,
+      "y": 180,
+      "size": 54,
+      "fill": "#e9b8ff",
+      "weight": 800,
+      "font": "Bungee"
+    },
+    {
+      "id": "quote",
+      "label": "Wisdom quote",
+      "default": "Trust the magic within you \u2014\nit has never led you astray.",
+      "x": 627,
+      "y": 627,
+      "size": 56,
+      "fill": "#ffffff",
+      "weight": 700,
+      "font": "Marcellus",
+      "maxWidth": 1000
+    },
+    {
+      "id": "attr",
+      "label": "Attribution",
+      "default": "\u2014 KarlaJean",
+      "x": 627,
+      "y": 1050,
+      "size": 36,
+      "fill": "#c9a7ff",
+      "weight": 600,
+      "font": "Marcellus"
+    }
+  ],
+  "brand": {
+    "text": "\u2726 KarlaJean Studios",
+    "sub": "karlajean-studios.github.io/template-studio/",
+    "x": 627,
+    "y": 1195,
+    "size": 26,
+    "subSize": 18,
+    "fill": "#e9b8ff",
+    "subFill": "#c9a7ff",
+    "alpha": 0.8
+  }
+}

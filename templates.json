@@ -1,1 +1,112 @@
-{"templates":[{"category":"Networking","desc":"Six photo spots, six name badges. Shout out your creator circle and grow together.","id":"creator-spotlight","live":true,"name":"Creator Spotlight","spec":"assets/templates/creator-spotlight/spec.json","thumb":"assets/templates/creator-spotlight/thumb.jpg"},{"category":"Networking","desc":"You and your bestie, front and center. For duos who grow together.","id":"creator-besties","live":true,"name":"Creator Besties","spec":"assets/templates/creator-besties/spec.json","thumb":"assets/templates/creator-besties/thumb.jpg"},{"category":"Celebration","desc":"Crown the birthday star. One big photo, one big day, all the sparkle.","id":"birthday-queen","live":true,"name":"Birthday Queen","spec":"assets/templates/birthday-queen/spec.json","thumb":"assets/templates/birthday-queen/thumb.jpg"},{"category":"Celebration","desc":"10K? 100K? Shout your milestone from the sparkly rooftops.","id":"milestone-magic","live":true,"name":"Milestone Magic","spec":"assets/templates/milestone-magic/spec.json","thumb":"assets/templates/milestone-magic/thumb.jpg"},{"category":"Business","desc":"Put a small business on blast: photos, tagline, and a call to action.","id":"small-business-spotlight","live":true,"name":"Small Business Spotlight","spec":"assets/templates/small-business-spotlight/spec.json","thumb":"assets/templates/small-business-spotlight/thumb.jpg"},{"category":"Networking","desc":"Two creators, one mission. Your open invitation to collab and grow.","id":"lets-collaborate","live":true,"name":"Let's Collaborate","spec":"assets/templates/lets-collaborate/spec.json","thumb":"assets/templates/lets-collaborate/thumb.jpg"}]}
+{
+  "templates": [
+    {
+      "category": "Networking",
+      "desc": "Six photo spots, six name badges. Shout out your creator circle and grow together.",
+      "id": "creator-spotlight",
+      "live": true,
+      "name": "Creator Spotlight",
+      "spec": "assets/templates/creator-spotlight/spec.json",
+      "thumb": "assets/templates/creator-spotlight/thumb.jpg"
+    },
+    {
+      "category": "Networking",
+      "desc": "You and your bestie, front and center. For duos who grow together.",
+      "id": "creator-besties",
+      "live": true,
+      "name": "Creator Besties",
+      "spec": "assets/templates/creator-besties/spec.json",
+      "thumb": "assets/templates/creator-besties/thumb.jpg"
+    },
+    {
+      "category": "Celebration",
+      "desc": "Crown the birthday star. One big photo, one big day, all the sparkle.",
+      "id": "birthday-queen",
+      "live": true,
+      "name": "Birthday Queen",
+      "spec": "assets/templates/birthday-queen/spec.json",
+      "thumb": "assets/templates/birthday-queen/thumb.jpg"
+    },
+    {
+      "category": "Celebration",
+      "desc": "10K? 100K? Shout your milestone from the sparkly rooftops.",
+      "id": "milestone-magic",
+      "live": true,
+      "name": "Milestone Magic",
+      "spec": "assets/templates/milestone-magic/spec.json",
+      "thumb": "assets/templates/milestone-magic/thumb.jpg"
+    },
+    {
+      "category": "Business",
+      "desc": "Put a small business on blast: photos, tagline, and a call to action.",
+      "id": "small-business-spotlight",
+      "live": true,
+      "name": "Small Business Spotlight",
+      "spec": "assets/templates/small-business-spotlight/spec.json",
+      "thumb": "assets/templates/small-business-spotlight/thumb.jpg"
+    },
+    {
+      "category": "Networking",
+      "desc": "Two creators, one mission. Your open invitation to collab and grow.",
+      "id": "lets-collaborate",
+      "live": true,
+      "name": "Let's Collaborate",
+      "spec": "assets/templates/lets-collaborate/spec.json",
+      "thumb": "assets/templates/lets-collaborate/thumb.jpg"
+    },
+    {
+      "id": "witchy-wisdom",
+      "name": "Witchy Wisdom",
+      "category": "Quotes",
+      "desc": "Mystical quotes with crystal-ball magic. Type your wisdom, share the spell.",
+      "thumb": "assets/templates/witchy-wisdom/thumb.jpg",
+      "spec": "assets/templates/witchy-wisdom/spec.json",
+      "live": true
+    },
+    {
+      "id": "kindness-challenge",
+      "name": "Kindness Challenge",
+      "category": "Quotes",
+      "desc": "50 days of soft hearts. Daily kindness prompts to share.",
+      "thumb": "assets/templates/kindness-challenge/thumb.jpg",
+      "spec": "assets/templates/kindness-challenge/spec.json",
+      "live": true
+    },
+    {
+      "id": "witchy-christmas",
+      "name": "Witchy Christmas",
+      "category": "Holiday",
+      "desc": "Holiday magic with your photo. Witchy Christmas greetings.",
+      "thumb": "assets/templates/witchy-christmas/thumb.jpg",
+      "spec": "assets/templates/witchy-christmas/spec.json",
+      "live": true
+    },
+    {
+      "id": "forever-remembered",
+      "name": "Forever Remembered",
+      "category": "Memorial",
+      "desc": "Elegant memorial graphics. Honor those forever in your heart.",
+      "thumb": "assets/templates/forever-remembered/thumb.jpg",
+      "spec": "assets/templates/forever-remembered/spec.json",
+      "live": true
+    },
+    {
+      "id": "beautifully-unhinged",
+      "name": "Beautifully Unhinged",
+      "category": "Funny",
+      "desc": "Chaotic meme energy. For when you're gloriously unhinged.",
+      "thumb": "assets/templates/beautifully-unhinged/thumb.jpg",
+      "spec": "assets/templates/beautifully-unhinged/spec.json",
+      "live": true
+    },
+    {
+      "id": "daily-affirmations",
+      "name": "Daily Affirmations",
+      "category": "Wellness",
+      "desc": "Sunrise affirmations to start your day with intention.",
+      "thumb": "assets/templates/daily-affirmations/thumb.jpg",
+      "spec": "assets/templates/daily-affirmations/spec.json",
+      "live": true
+    }
+  ]
+}

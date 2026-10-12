@@ -1,0 +1,60 @@
+{
+  "canvas": {
+    "w": 1254,
+    "h": 1254
+  },
+  "layers": {
+    "back": "bg.jpg"
+  },
+  "slots": [
+    {
+      "id": "photo1",
+      "label": "Your photo",
+      "cx": 627,
+      "cy": 620,
+      "r": 250,
+      "shape": "circle",
+      "frame": {
+        "stroke": "#ff4fd8",
+        "width": 10,
+        "glow": "#ff4fd8",
+        "glowBlur": 24
+      }
+    }
+  ],
+  "texts": [
+    {
+      "id": "headline",
+      "label": "Headline",
+      "default": "BEAUTIFULLY UNHINGED",
+      "x": 627,
+      "y": 150,
+      "size": 68,
+      "fill": "#ff4fd8",
+      "weight": 800,
+      "font": "Bungee"
+    },
+    {
+      "id": "punchline",
+      "label": "Punchline",
+      "default": "And I wouldn't have it any other way \ud83d\ude08",
+      "x": 627,
+      "y": 1070,
+      "size": 42,
+      "fill": "#ffffff",
+      "weight": 700,
+      "font": "Marcellus"
+    }
+  ],
+  "brand": {
+    "text": "\u2726 KarlaJean Studios",
+    "sub": "karlajean-studios.github.io/template-studio/",
+    "x": 627,
+    "y": 1195,
+    "size": 26,
+    "subSize": 18,
+    "fill": "#e9b8ff",
+    "subFill": "#c9a7ff",
+    "alpha": 0.8
+  }
+}

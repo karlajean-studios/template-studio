@@ -1,0 +1,57 @@
+{
+  "canvas": {
+    "w": 1254,
+    "h": 1254
+  },
+  "layers": {
+    "back": "bg.jpg"
+  },
+  "slots": [],
+  "texts": [
+    {
+      "id": "header",
+      "label": "Header",
+      "default": "DAILY AFFIRMATION",
+      "x": 627,
+      "y": 170,
+      "size": 50,
+      "fill": "#b8860b",
+      "weight": 800,
+      "font": "Bungee"
+    },
+    {
+      "id": "affirmation",
+      "label": "Affirmation",
+      "default": "I am worthy of love,\njoy, and all good things.",
+      "x": 627,
+      "y": 627,
+      "size": 58,
+      "fill": "#4a2a10",
+      "weight": 700,
+      "font": "Marcellus",
+      "maxWidth": 1000
+    },
+    {
+      "id": "attr",
+      "label": "Attribution",
+      "default": "\u2014 KarlaJean",
+      "x": 627,
+      "y": 1050,
+      "size": 36,
+      "fill": "#8a6d3b",
+      "weight": 600,
+      "font": "Marcellus"
+    }
+  ],
+  "brand": {
+    "text": "\u2726 KarlaJean Studios",
+    "sub": "karlajean-studios.github.io/template-studio/",
+    "x": 627,
+    "y": 1195,
+    "size": 26,
+    "subSize": 18,
+    "fill": "#e9b8ff",
+    "subFill": "#c9a7ff",
+    "alpha": 0.8
+  }
+}

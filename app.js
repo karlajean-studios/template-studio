@@ -103,10 +103,16 @@
     if (!grid) return;
     fetch('links.json?v=' + ASSET_V).then(function (r) { return r.json(); }).then(function (j) {
       (j.links || []).forEach(function (l) {
-        var a = document.createElement('a');
-        a.className = 'link-card';
-        a.href = l.url;
-        if (l.url.indexOf('mailto:') !== 0) { a.target = '_blank'; a.rel = 'noopener'; }
+        var isPending = l.pending && !l.url;
+        var card = document.createElement(isPending ? 'div' : 'a');
+        card.className = 'link-card' + (isPending ? ' link-pending' : '') + (l.soon ? ' link-soon' : '');
+        if (!isPending) {
+          card.href = l.url;
+          if (l.url.indexOf('mailto:') !== 0) { card.target = '_blank'; card.rel = 'noopener'; }
+          card.addEventListener('click', function () { track('click', l.id); });
+        } else {
+          card.setAttribute('aria-disabled', 'true');
+        }
         var icon = document.createElement('span');
         icon.className = 'link-icon';
         icon.setAttribute('aria-hidden', 'true');
@@ -116,15 +122,14 @@
         var strong = document.createElement('strong');
         strong.textContent = l.label;
         var small = document.createElement('small');
-        small.textContent = l.sub || '';
+        small.textContent = isPending ? 'Coming soon' : (l.sub || '');
         tx.appendChild(strong); tx.appendChild(small);
         var go = document.createElement('span');
         go.className = 'link-go';
         go.setAttribute('aria-hidden', 'true');
-        go.textContent = '→';
-        a.appendChild(icon); a.appendChild(tx); a.appendChild(go);
-        a.addEventListener('click', function () { track('click', l.id); });
-        grid.appendChild(a);
+        go.textContent = isPending ? '…' : '→';
+        card.appendChild(icon); card.appendChild(tx); card.appendChild(go);
+        grid.appendChild(card);
       });
     }).catch(function () {});
   }
@@ -156,7 +161,8 @@
       (s.texts || []).forEach(function (tx) { texts[tx.id] = tx.default || ''; });
       buildSlotCards();
       buildTextCards();
-      setActive(0);
+      if (s.slots.length) setActive(0);
+      else el('canvasHint').textContent = 'Edit the words below — your design updates live.';
       draw();
     });
     el('templates').scrollIntoView({ behavior: 'smooth' });
@@ -260,6 +266,7 @@
   }
 
   function setActive(i) {
+    if (!spec || !spec.slots[i]) return;
     activeSlot = i;
     spec.slots.forEach(function (_, j) {
       var c = el('slotCard' + j);
@@ -453,11 +460,21 @@
     c.globalAlpha = (b.alpha != null ? b.alpha : 0.85);
     c.textAlign = b.align || 'center';
     c.textBaseline = 'middle';
+    var bx = (b.x != null ? b.x : LOGICAL_W / 2) * f;
+    var by = (b.y != null ? b.y : LOGICAL_H - 44) * f;
+    // Main line: studio name
     c.font = '700 ' + Math.round((b.size || 28) * f) + 'px Montserrat, sans-serif';
     c.shadowColor = 'rgba(255,79,216,.6)';
     c.shadowBlur = 10 * f;
     c.fillStyle = b.fill || '#ffd7f2';
-    c.fillText(b.text, (b.x != null ? b.x : LOGICAL_W / 2) * f, (b.y != null ? b.y : LOGICAL_H - 44) * f);
+    c.fillText(b.text, bx, by);
+    // Sub line: studio URL (smaller, quieter)
+    if (b.sub) {
+      c.shadowBlur = 0;
+      c.font = '600 ' + Math.round((b.subSize || 18) * f) + 'px Montserrat, sans-serif';
+      c.fillStyle = b.subFill || '#c9a7ff';
+      c.fillText(b.sub, bx, by + Math.round((b.size || 28) * 1.1) * f);
+    }
     c.restore();
   }
 
@@ -558,7 +575,42 @@
       a.download = 'karlajean-studios-' + currentTpl.id + '.png';
       document.body.appendChild(a); a.click();
       setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
+      // reveal sharing options after a completed creation
+      showShareRow();
     }, 'image/png');
+  }
+
+  var STUDIO_URL = 'https://karlajean-studios.github.io/template-studio/';
+  function showShareRow() {
+    var row = el('shareRow'), hint = el('shareHint');
+    if (!row) return;
+    row.hidden = false;
+    if (hint) hint.hidden = false;
+    // native share sheet only where supported (mostly mobile)
+    var sb = el('shareBtn');
+    if (sb) sb.hidden = !(navigator.share);
+  }
+  function copyStudioLink() {
+    var done = function () {
+      var b = el('copyLinkBtn');
+      if (b) { var t = b.textContent; b.textContent = '✓ Copied!'; setTimeout(function () { b.textContent = t; }, 1800); }
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(STUDIO_URL).then(done, done);
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = STUDIO_URL; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      ta.remove(); done();
+    }
+  }
+  function nativeShare() {
+    if (!navigator.share) return;
+    navigator.share({
+      title: 'KarlaJean Studios Template Studio',
+      text: 'I made this with KarlaJean Studios! Make your own beautiful graphic:',
+      url: STUDIO_URL
+    }).catch(function () {});
   }
 
   function resetAll() {
@@ -596,6 +648,8 @@
     filePicker.addEventListener('change', function () { handleFile(filePicker.files[0]); });
     el('downloadBtn').addEventListener('click', download);
     el('resetBtn').addEventListener('click', resetAll);
+    if (el('copyLinkBtn')) el('copyLinkBtn').addEventListener('click', copyStudioLink);
+    if (el('shareBtn')) el('shareBtn').addEventListener('click', nativeShare);
     el('backToGallery').addEventListener('click', function () {
       el('editor').hidden = true;
       el('templates').scrollIntoView({ behavior: 'smooth' });

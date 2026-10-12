@@ -1,0 +1,71 @@
+{
+  "canvas": {
+    "w": 1254,
+    "h": 1254
+  },
+  "layers": {
+    "back": "bg.jpg"
+  },
+  "slots": [
+    {
+      "id": "photo1",
+      "label": "Remembrance photo",
+      "cx": 627,
+      "cy": 560,
+      "r": 240,
+      "shape": "circle",
+      "frame": {
+        "stroke": "#c9a7ff",
+        "width": 8,
+        "glow": "#c9a7ff",
+        "glowBlur": 20
+      }
+    }
+  ],
+  "texts": [
+    {
+      "id": "name",
+      "label": "Name",
+      "default": "In Loving Memory",
+      "x": 627,
+      "y": 150,
+      "size": 60,
+      "fill": "#e9d8ff",
+      "weight": 700,
+      "font": "Marcellus"
+    },
+    {
+      "id": "dates",
+      "label": "Dates",
+      "default": "1950 \u2014 2026",
+      "x": 627,
+      "y": 880,
+      "size": 44,
+      "fill": "#c9a7ff",
+      "weight": 600,
+      "font": "Marcellus"
+    },
+    {
+      "id": "quote",
+      "label": "Remembrance",
+      "default": "Forever in our hearts.",
+      "x": 627,
+      "y": 960,
+      "size": 40,
+      "fill": "#e9d8ff",
+      "weight": 600,
+      "font": "Marcellus"
+    }
+  ],
+  "brand": {
+    "text": "\u2726 KarlaJean Studios",
+    "sub": "karlajean-studios.github.io/template-studio/",
+    "x": 627,
+    "y": 1195,
+    "size": 26,
+    "subSize": 18,
+    "fill": "#e9b8ff",
+    "subFill": "#c9a7ff",
+    "alpha": 0.8
+  }
+}

@@ -1,1 +1,84 @@
-{"brand":{"alpha":0.8,"fill":"#e9b8ff","size":26,"text":"✦ KarlaJean Studios","x":627,"y":1212},"canvas":{"h":1254,"w":1254},"contactEmail":"karlajeanstudios@gmail.com","frame":{"glow":"rgba(255,215,94,.8)","glowBlur":26,"stroke":"#ffd75e","width":12},"layers":{"back":"bg.jpg"},"name":"Birthday Queen","slots":[{"cx":627,"cy":679,"id":"birthday-star","label":"Birthday Star","r":280,"shape":"circle"}],"texts":[{"default":"HAPPY BIRTHDAY","fill":"#ffffff","font":"Bungee","id":"headline","label":"Headline","maxWidth":1150,"shadow":"rgba(255,79,216,.85)","shadowBlur":18,"size":96,"stroke":"#ff2e9a","strokeWidth":8,"uppercase":true,"weight":400,"x":627,"y":205},{"default":"Birthday Queen","fill":"#ffd7f2","font":"Parisienne","id":"name","label":"Birthday star name","maxWidth":900,"shadow":"rgba(255,79,216,.7)","shadowBlur":12,"size":64,"weight":400,"x":627,"y":1015},{"default":"make a wish, babe — your year, your rules","fill":"#ffffff","font":"Montserrat","id":"subtext","label":"Subtext","maxWidth":1050,"size":38,"weight":600,"x":627,"y":1095}],"version":"1.0.0"}
+{
+  "brand": {
+    "alpha": 0.8,
+    "fill": "#e9b8ff",
+    "size": 26,
+    "text": "\u2726 KarlaJean Studios",
+    "x": 627,
+    "y": 1197,
+    "sub": "karlajean-studios.github.io/template-studio/",
+    "subSize": 18,
+    "subFill": "#c9a7ff"
+  },
+  "canvas": {
+    "h": 1254,
+    "w": 1254
+  },
+  "contactEmail": "karlajeanstudios@gmail.com",
+  "frame": {
+    "glow": "rgba(255,215,94,.8)",
+    "glowBlur": 26,
+    "stroke": "#ffd75e",
+    "width": 12
+  },
+  "layers": {
+    "back": "bg.jpg"
+  },
+  "name": "Birthday Queen",
+  "slots": [
+    {
+      "cx": 627,
+      "cy": 679,
+      "id": "birthday-star",
+      "label": "Birthday Star",
+      "r": 280,
+      "shape": "circle"
+    }
+  ],
+  "texts": [
+    {
+      "default": "HAPPY BIRTHDAY",
+      "fill": "#ffffff",
+      "font": "Bungee",
+      "id": "headline",
+      "label": "Headline",
+      "maxWidth": 1150,
+      "shadow": "rgba(255,79,216,.85)",
+      "shadowBlur": 18,
+      "size": 96,
+      "stroke": "#ff2e9a",
+      "strokeWidth": 8,
+      "uppercase": true,
+      "weight": 400,
+      "x": 627,
+      "y": 205
+    },
+    {
+      "default": "Birthday Queen",
+      "fill": "#ffd7f2",
+      "font": "Parisienne",
+      "id": "name",
+      "label": "Birthday star name",
+      "maxWidth": 900,
+      "shadow": "rgba(255,79,216,.7)",
+      "shadowBlur": 12,
+      "size": 64,
+      "weight": 400,
+      "x": 627,
+      "y": 1015
+    },
+    {
+      "default": "make a wish, babe \u2014 your year, your rules",
+      "fill": "#ffffff",
+      "font": "Montserrat",
+      "id": "subtext",
+      "label": "Subtext",
+      "maxWidth": 1050,
+      "size": 38,
+      "weight": 600,
+      "x": 627,
+      "y": 1095
+    }
+  ],
+  "version": "1.0.0"
+}

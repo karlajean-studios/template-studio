@@ -1,1 +1,106 @@
-{"brand":{"alpha":0.8,"fill":"#e9b8ff","size":26,"text":"✦ KarlaJean Studios","x":627,"y":1212},"canvas":{"h":1254,"w":1254},"contactEmail":"karlajeanstudios@gmail.com","frame":{"glow":"rgba(255,79,216,.75)","glowBlur":24,"stroke":"#ff4fd8","width":10},"layers":{"back":"bg.jpg"},"name":"Let's Collaborate","slots":[{"cx":400,"cy":760,"id":"creator1","label":"Creator 1","r":190,"shape":"circle"},{"cx":854,"cy":760,"id":"creator2","label":"Creator 2","r":190,"shape":"circle"}],"texts":[{"default":"LET'S COLLABORATE","fill":"#ffffff","font":"Bungee","id":"headline","label":"Headline","maxWidth":1100,"shadow":"rgba(255,79,216,.85)","shadowBlur":18,"size":80,"stroke":"#8a2be2","strokeWidth":8,"uppercase":true,"weight":400,"x":627,"y":132},{"default":"Creator One","fill":"#ffffff","font":"Montserrat","id":"name1","label":"Creator 1 name","maxWidth":340,"shadow":"rgba(255,79,216,.7)","shadowBlur":10,"size":42,"weight":800,"x":400,"y":1002},{"default":"Creator Two","fill":"#ffffff","font":"Montserrat","id":"name2","label":"Creator 2 name","maxWidth":340,"shadow":"rgba(255,79,216,.7)","shadowBlur":10,"size":42,"weight":800,"x":854,"y":1002},{"default":"DM me — let's grow together","fill":"#ff9de2","font":"Montserrat","id":"cta","label":"Call to action","maxWidth":1000,"size":38,"weight":700,"x":627,"y":1082}],"version":"1.0.0"}
+{
+  "brand": {
+    "alpha": 0.8,
+    "fill": "#e9b8ff",
+    "size": 26,
+    "text": "\u2726 KarlaJean Studios",
+    "x": 627,
+    "y": 1197,
+    "sub": "karlajean-studios.github.io/template-studio/",
+    "subSize": 18,
+    "subFill": "#c9a7ff"
+  },
+  "canvas": {
+    "h": 1254,
+    "w": 1254
+  },
+  "contactEmail": "karlajeanstudios@gmail.com",
+  "frame": {
+    "glow": "rgba(255,79,216,.75)",
+    "glowBlur": 24,
+    "stroke": "#ff4fd8",
+    "width": 10
+  },
+  "layers": {
+    "back": "bg.jpg"
+  },
+  "name": "Let's Collaborate",
+  "slots": [
+    {
+      "cx": 400,
+      "cy": 760,
+      "id": "creator1",
+      "label": "Creator 1",
+      "r": 190,
+      "shape": "circle"
+    },
+    {
+      "cx": 854,
+      "cy": 760,
+      "id": "creator2",
+      "label": "Creator 2",
+      "r": 190,
+      "shape": "circle"
+    }
+  ],
+  "texts": [
+    {
+      "default": "LET'S COLLABORATE",
+      "fill": "#ffffff",
+      "font": "Bungee",
+      "id": "headline",
+      "label": "Headline",
+      "maxWidth": 1100,
+      "shadow": "rgba(255,79,216,.85)",
+      "shadowBlur": 18,
+      "size": 80,
+      "stroke": "#8a2be2",
+      "strokeWidth": 8,
+      "uppercase": true,
+      "weight": 400,
+      "x": 627,
+      "y": 132
+    },
+    {
+      "default": "Creator One",
+      "fill": "#ffffff",
+      "font": "Montserrat",
+      "id": "name1",
+      "label": "Creator 1 name",
+      "maxWidth": 340,
+      "shadow": "rgba(255,79,216,.7)",
+      "shadowBlur": 10,
+      "size": 42,
+      "weight": 800,
+      "x": 400,
+      "y": 1002
+    },
+    {
+      "default": "Creator Two",
+      "fill": "#ffffff",
+      "font": "Montserrat",
+      "id": "name2",
+      "label": "Creator 2 name",
+      "maxWidth": 340,
+      "shadow": "rgba(255,79,216,.7)",
+      "shadowBlur": 10,
+      "size": 42,
+      "weight": 800,
+      "x": 854,
+      "y": 1002
+    },
+    {
+      "default": "DM me \u2014 let's grow together",
+      "fill": "#ff9de2",
+      "font": "Montserrat",
+      "id": "cta",
+      "label": "Call to action",
+      "maxWidth": 1000,
+      "size": 38,
+      "weight": 700,
+      "x": 627,
+      "y": 1082
+    }
+  ],
+  "version": "1.0.0"
+}

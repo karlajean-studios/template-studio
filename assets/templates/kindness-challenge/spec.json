@@ -1,0 +1,68 @@
+{
+  "canvas": {
+    "w": 1254,
+    "h": 1254
+  },
+  "layers": {
+    "back": "bg.jpg"
+  },
+  "slots": [],
+  "texts": [
+    {
+      "id": "day",
+      "label": "Day number",
+      "default": "DAY 1",
+      "x": 627,
+      "y": 140,
+      "size": 48,
+      "fill": "#7a2d8f",
+      "weight": 800,
+      "font": "Bungee"
+    },
+    {
+      "id": "header",
+      "label": "Header",
+      "default": "KINDNESS CHALLENGE",
+      "x": 627,
+      "y": 210,
+      "size": 44,
+      "fill": "#9a5fb0",
+      "weight": 700,
+      "font": "Bungee"
+    },
+    {
+      "id": "quote",
+      "label": "Kindness prompt",
+      "default": "Compliment a stranger today.\nWatch their whole face light up.",
+      "x": 627,
+      "y": 627,
+      "size": 52,
+      "fill": "#4a1a5e",
+      "weight": 700,
+      "font": "Marcellus",
+      "maxWidth": 1000
+    },
+    {
+      "id": "attr",
+      "label": "Attribution",
+      "default": "\u2014 KarlaJean",
+      "x": 627,
+      "y": 1050,
+      "size": 34,
+      "fill": "#9a5fb0",
+      "weight": 600,
+      "font": "Marcellus"
+    }
+  ],
+  "brand": {
+    "text": "\u2726 KarlaJean Studios",
+    "sub": "karlajean-studios.github.io/template-studio/",
+    "x": 627,
+    "y": 1195,
+    "size": 26,
+    "subSize": 18,
+    "fill": "#e9b8ff",
+    "subFill": "#c9a7ff",
+    "alpha": 0.8
+  }
+}

@@ -61,17 +61,19 @@ var KJSAnalytics = (function () {
     return false;
   }
 
-  function fire(url) {
+  function fire(type, key) {
     try {
       var ctl = new AbortController();
       var t = setTimeout(function () { ctl.abort(); }, 4000);
-      fetch(url, { mode: 'cors', keepalive: true, signal: ctl.signal })
-        .then(function () { clearTimeout(t); }, function () { clearTimeout(t); });
+      fetch(BACKEND_URL + '/api/hit', {
+        method: 'POST',
+        mode: 'cors',
+        keepalive: true,
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ action: type, key: key }),
+        signal: ctl.signal
+      }).then(function () { clearTimeout(t); }, function () { clearTimeout(t); });
     } catch (e) {}
-  }
-  function hitUrl(type, key) {
-    return BACKEND_URL + '/api/hit/' + encodeURIComponent(type) +
-      '/' + encodeURIComponent(key);
   }
 
   function getToken() {
@@ -90,7 +92,7 @@ var KJSAnalytics = (function () {
     key = String(key || 'home').replace(/[^a-z0-9-]+/gi, '-').toLowerCase() || 'home';
     if (type === 'visit' && sessionGuard('kjs_visit')) return;
     if (type === 'unique' && dayGuard('kjs_unique')) return;
-    if (BACKEND_URL) { fire(hitUrl(type, key)); return; }
+    if (BACKEND_URL) { fire(type, key); return; }
     var s = loadLocal();
     if (type === 'visit') s.visits++;
     else if (type === 'unique') s.uniques[today()] = 1;
