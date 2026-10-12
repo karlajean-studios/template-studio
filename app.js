@@ -22,7 +22,7 @@
   ];
 
   var spec = null, backImg = null, frontImg = null;
-  var slots = [];          // {photo:{img,w,h}|null, scale, ox, oy, name}
+  var slots = [];          // {photo:{img,w,h}|null, scale, ox, oy (logical units), name}
   var activeSlot = 0;
   var canvas, ctx, filePicker, pickingSlot = 0;
 
@@ -186,10 +186,12 @@
         var cover = Math.max((r * 2) / p.w, (r * 2) / p.h);
         var sc = cover * st.scale;
         var dw = p.w * sc, dh = p.h * sc;
-        var maxOx = Math.max(0, dw / 2 - r), maxOy = Math.max(0, dh / 2 - r);
+        // ox/oy are stored in logical (spec) units so the preview and the
+        // high-res download stay in sync; scale them to canvas pixels here.
+        var maxOx = Math.max(0, (dw / 2 - r) / f), maxOy = Math.max(0, (dh / 2 - r) / f);
         st.ox = clamp(st.ox, -maxOx, maxOx);
         st.oy = clamp(st.oy, -maxOy, maxOy);
-        c.drawImage(p.img, cx - dw / 2 + st.ox, cy - dh / 2 + st.oy, dw, dh);
+        c.drawImage(p.img, cx - dw / 2 + st.ox * f, cy - dh / 2 + st.oy * f, dw, dh);
       } else if (spec.placeholder !== 'native') {
         c.fillStyle = 'rgba(22,10,40,0.88)';
         c.fillRect(cx - r, cy - r, r * 2, r * 2);
@@ -264,9 +266,10 @@
     canvas.addEventListener('pointermove', function (e) {
       if (!dragging) return;
       var pos = canvasPos(e);
-      var f = canvas.width / LOGICAL_W;
-      slots[activeSlot].ox += (pos.x - lastPos.x) * f;
-      slots[activeSlot].oy += (pos.y - lastPos.y) * f;
+      // canvasPos is already in logical units; store the drag offset in
+      // logical units so it renders identically at any export resolution.
+      slots[activeSlot].ox += (pos.x - lastPos.x);
+      slots[activeSlot].oy += (pos.y - lastPos.y);
       moved += Math.abs(pos.x - lastPos.x) + Math.abs(pos.y - lastPos.y);
       lastPos = pos;
       draw();
