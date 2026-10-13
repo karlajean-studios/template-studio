@@ -23,7 +23,7 @@
   var activeSlot = 0;
   var canvas, ctx, filePicker, pickingSlot = 0;
   var LOGICAL_W = 1254, LOGICAL_H = 1254;
-  var ASSET_V = '0.2.1'; // bump to bust caches on updates
+  var ASSET_V = '0.3.2'; // bump to bust caches on updates
 
   function el(id) { return document.getElementById(id); }
   function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
@@ -574,6 +574,7 @@
       drawTo(c.getContext('2d'), c.width, c.height);
     } catch (e) {
       if (btn) { btn.textContent = origText; btn.disabled = false; }
+      showSaveMessage('Something went wrong creating your image — please try tapping Download again.');
       return;
     }
     var finished = false;
@@ -583,7 +584,10 @@
     c.toBlob(function (blob) {
       finished = true; clearTimeout(timer);
       if (btn) { btn.textContent = origText; btn.disabled = false; }
-      if (!blob) return;
+      if (!blob) {
+        showSaveMessage('Your image could not be created — please try tapping Download again.');
+        return;
+      }
       // count only completed downloads — the PNG actually exists here
       track('download', currentTpl.id);
       lastBlob = blob;
@@ -601,16 +605,27 @@
   }
 
   var STUDIO_URL = 'https://karlajean-studios.github.io/template-studio/';
+  function showSaveMessage(msg) {
+    var hint = el('shareHint');
+    if (hint) { hint.innerHTML = msg; hint.hidden = false; }
+    var row = el('shareRow');
+    if (row) row.hidden = false;
+  }
   function showShareRow() {
     var row = el('shareRow'), hint = el('shareHint');
     if (!row) return;
     row.hidden = false;
-    if (hint) hint.hidden = false;
-    // native share sheet only where supported (mostly mobile)
+    if (hint) {
+      hint.innerHTML = 'If your download didn\'t start, tap <strong>Save image</strong> below — or View full image, then long-press it to save.';
+      hint.hidden = false;
+    }
+    // The Save button ALWAYS works: file-share where supported,
+    // otherwise the full-image view (long-press to save). It never
+    // falls back to sharing just the studio link.
     var sb = el('shareBtn');
-    if (sb) sb.hidden = !(navigator.share || (navigator.canShare && lastBlob));
-    var ob = el('openImgBtn');
-    if (ob) ob.hidden = !lastBlobUrl;
+    if (sb) sb.hidden = false;
+    var oRow = el('openImgRow');
+    if (oRow) oRow.hidden = !lastBlobUrl;
   }
   function copyStudioLink() {
     var done = function () {
@@ -627,7 +642,12 @@
     }
   }
   function nativeShare() {
-    // Best: share the actual image file (Android share sheet offers "Save to device")
+    // Save flow: share the actual image file where the browser supports
+    // it (Android share sheet offers "Save to device" / "Download").
+    // Where file-sharing is NOT supported (in-app browsers, some iOS
+    // contexts), show the full-image view instead — long-press to save.
+    // NEVER fall back to sharing just the studio link: that made users
+    // think their image was saved when only a link went out.
     if (lastBlob) {
       try {
         var file = new File([lastBlob], 'karlajean-studios-' + (currentTpl ? currentTpl.id : 'creation') + '.png', { type: 'image/png' });
@@ -637,13 +657,9 @@
         }
       } catch (e) {}
     }
-    // Fallback: share the studio link
-    if (!navigator.share) return;
-    navigator.share({
-      title: 'KarlaJean Studios Template Studio',
-      text: 'I made this with KarlaJean Studios! Make your own beautiful graphic:',
-      url: STUDIO_URL
-    }).catch(function () {});
+    // No file-share available (or no image yet): open the full image so
+    // the user can long-press and save it. Never silently do nothing.
+    openFullImage();
   }
   function openFullImage() {
     // Bulletproof fallback: show the PNG full-screen in a modal.

@@ -74,9 +74,12 @@
           <p class="fine-print" id="dlFinePrint">High-quality PNG, ready for Facebook, Threads &amp; Instagram.</p>
           <div id="shareRow" class="share-row" hidden>
             <button id="copyLinkBtn" class="btn btn-ghost">🔗 Copy Studio Link</button>
-            <button id="shareBtn" class="btn btn-ghost" hidden>📤 Share / Save</button>
+            <button id="shareBtn" class="btn btn-ghost" hidden>💾 Save image</button>
           </div>
-          <p class="fine-print" id="shareHint" hidden>Show off what you made — invite others to create their own!<br><button id="openImgBtn" class="linklike" hidden>Tap here to view full image (long-press to save)</button></p>
+          <p class="fine-print" id="shareHint" hidden>If your download didn't start, tap <strong>Save image</strong> below — or View full image, then long-press it to save.</p>
+          <div id="openImgRow" class="share-row" hidden>
+            <button id="openImgBtn" class="btn btn-ghost btn-block">🖼 View full image to save</button>
+          </div>
           <button id="resetBtn" class="btn btn-ghost btn-block">Start over</button>
         </div>
       </div>
@@ -133,7 +136,7 @@
     <button id="imgModalClose" class="btn btn-ghost btn-block">Close</button>
   </div>
 </div>
-<script src="analytics.js?v=0.2.1"></script>
-<script src="app.js?v=0.2.1"></script>
+<script src="analytics.js?v=0.3.2"></script>
+<script src="app.js?v=0.3.2"></script>
 </body>
 </html>
