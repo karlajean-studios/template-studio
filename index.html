@@ -74,9 +74,9 @@
           <p class="fine-print" id="dlFinePrint">High-quality PNG, ready for Facebook, Threads &amp; Instagram.</p>
           <div id="shareRow" class="share-row" hidden>
             <button id="copyLinkBtn" class="btn btn-ghost">🔗 Copy Studio Link</button>
-            <button id="shareBtn" class="btn btn-ghost" hidden>📤 Share</button>
+            <button id="shareBtn" class="btn btn-ghost" hidden>📤 Share / Save</button>
           </div>
-          <p class="fine-print" id="shareHint" hidden>Show off what you made — invite others to create their own!</p>
+          <p class="fine-print" id="shareHint" hidden>Show off what you made — invite others to create their own!<br><button id="openImgBtn" class="linklike" hidden>Tap here to view full image (long-press to save)</button></p>
           <button id="resetBtn" class="btn btn-ghost btn-block">Start over</button>
         </div>
       </div>
@@ -125,6 +125,14 @@
 </footer>
 
 <input type="file" id="filePicker" accept="image/*" hidden>
+<div id="imgModal" class="img-modal" hidden>
+  <div class="img-modal-box">
+    <p class="img-modal-title">Your creation 💜</p>
+    <img id="imgModalImg" alt="Your finished KarlaJean Studios creation">
+    <p class="fine-print">Long-press the image, then tap "Save image" or "Download image".</p>
+    <button id="imgModalClose" class="btn btn-ghost btn-block">Close</button>
+  </div>
+</div>
 <script src="analytics.js?v=0.2.1"></script>
 <script src="app.js?v=0.2.1"></script>
 </body>

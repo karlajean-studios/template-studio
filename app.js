@@ -561,20 +561,40 @@
   }
 
   /* ---------- download ---------- */
+  var lastBlob = null;   // the most recent creation, for share/open fallbacks
+  var lastBlobUrl = null;
   function download() {
     if (!spec || !currentTpl) return;
+    var btn = el('downloadBtn');
+    var origText = btn ? btn.textContent : '';
+    if (btn) { btn.textContent = 'Creating PNG…'; btn.disabled = true; }
     var c = document.createElement('canvas');
     c.width = LOGICAL_W * 2; c.height = LOGICAL_H * 2;
-    drawTo(c.getContext('2d'), c.width, c.height);
+    try {
+      drawTo(c.getContext('2d'), c.width, c.height);
+    } catch (e) {
+      if (btn) { btn.textContent = origText; btn.disabled = false; }
+      return;
+    }
+    var finished = false;
+    var timer = setTimeout(function () {
+      if (!finished && btn) { btn.textContent = origText; btn.disabled = false; }
+    }, 15000);
     c.toBlob(function (blob) {
+      finished = true; clearTimeout(timer);
+      if (btn) { btn.textContent = origText; btn.disabled = false; }
       if (!blob) return;
       // count only completed downloads — the PNG actually exists here
       track('download', currentTpl.id);
+      lastBlob = blob;
+      if (lastBlobUrl) { try { URL.revokeObjectURL(lastBlobUrl); } catch (e) {} }
+      lastBlobUrl = URL.createObjectURL(blob);
+      // Primary: direct download via anchor (works on desktop + most mobile)
       var a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
+      a.href = lastBlobUrl;
       a.download = 'karlajean-studios-' + currentTpl.id + '.png';
       document.body.appendChild(a); a.click();
-      setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 4000);
+      setTimeout(function () { a.remove(); }, 4000);
       // reveal sharing options after a completed creation
       showShareRow();
     }, 'image/png');
@@ -588,7 +608,9 @@
     if (hint) hint.hidden = false;
     // native share sheet only where supported (mostly mobile)
     var sb = el('shareBtn');
-    if (sb) sb.hidden = !(navigator.share);
+    if (sb) sb.hidden = !(navigator.share || (navigator.canShare && lastBlob));
+    var ob = el('openImgBtn');
+    if (ob) ob.hidden = !lastBlobUrl;
   }
   function copyStudioLink() {
     var done = function () {
@@ -605,12 +627,40 @@
     }
   }
   function nativeShare() {
+    // Best: share the actual image file (Android share sheet offers "Save to device")
+    if (lastBlob) {
+      try {
+        var file = new File([lastBlob], 'karlajean-studios-' + (currentTpl ? currentTpl.id : 'creation') + '.png', { type: 'image/png' });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          navigator.share({ files: [file], title: 'My KarlaJean Studios creation' }).catch(function () {});
+          return;
+        }
+      } catch (e) {}
+    }
+    // Fallback: share the studio link
     if (!navigator.share) return;
     navigator.share({
       title: 'KarlaJean Studios Template Studio',
       text: 'I made this with KarlaJean Studios! Make your own beautiful graphic:',
       url: STUDIO_URL
     }).catch(function () {});
+  }
+  function openFullImage() {
+    // Bulletproof fallback: show the PNG full-screen in a modal.
+    // Long-pressing the <img> brings up the native "Save image" menu
+    // in every mobile browser, including in-app browsers where
+    // downloads and window.open are blocked.
+    var modal = el('imgModal'), img = el('imgModalImg');
+    if (modal && img && lastBlobUrl) {
+      img.src = lastBlobUrl;
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+    }
+  }
+  function closeImgModal() {
+    var modal = el('imgModal');
+    if (modal) modal.hidden = true;
+    document.body.style.overflow = '';
   }
 
   function resetAll() {
@@ -650,6 +700,11 @@
     el('resetBtn').addEventListener('click', resetAll);
     if (el('copyLinkBtn')) el('copyLinkBtn').addEventListener('click', copyStudioLink);
     if (el('shareBtn')) el('shareBtn').addEventListener('click', nativeShare);
+    if (el('openImgBtn')) el('openImgBtn').addEventListener('click', openFullImage);
+    if (el('imgModalClose')) el('imgModalClose').addEventListener('click', closeImgModal);
+    if (el('imgModal')) el('imgModal').addEventListener('click', function (e) {
+      if (e.target === el('imgModal')) closeImgModal();
+    });
     el('backToGallery').addEventListener('click', function () {
       el('editor').hidden = true;
       el('templates').scrollIntoView({ behavior: 'smooth' });

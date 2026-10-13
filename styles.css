@@ -54,6 +54,12 @@ h2{font-size:clamp(1.4rem,4vw,2rem)}
 .btn-block{width:100%;margin-top:12px}
 .share-row{display:flex;gap:10px;margin-top:12px}
 .share-row .btn{flex:1}
+.linklike{background:none;border:none;color:var(--pink);text-decoration:underline;cursor:pointer;font-size:.85rem;padding:4px}
+.img-modal{position:fixed;inset:0;background:rgba(10,4,20,.92);z-index:100;display:flex;align-items:center;justify-content:center;padding:18px}
+.img-modal[hidden]{display:none}
+.img-modal-box{max-width:520px;width:100%;text-align:center}
+.img-modal-box img{width:100%;border-radius:14px;border:1px solid var(--line);-webkit-touch-callout:default;user-select:auto}
+.img-modal-title{font-weight:800;font-size:1.2rem;margin:0 0 10px}
 
 /* gallery */
 .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;margin-top:24px}
